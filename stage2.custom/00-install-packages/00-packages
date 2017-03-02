@@ -1,0 +1,4 @@
+alsa-utils
+git rpi-update
+rfkill
+chromium-browser rpi-chromium-mods
