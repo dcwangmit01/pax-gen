@@ -15,6 +15,6 @@ pi-gen:
 	pushd pi-gen && \
 	  hub fork || true && \
 	  git fetch --all && \
-	  git checkout -b current dcwangmit01/enable_work_dir_as_link || true && \
+	  git checkout -b current dcwangmit01/make_workdir_deploydir_configurable || true && \
 	  popd
 
