@@ -8,12 +8,19 @@ default: help
 all: hostdeps
 
 .PHONY = build
-build: hostdeps pi-gen  ## Build the pax image
+build: checks hostdeps pi-gen  ## Build the pax image
 	./build_pax.sh
 
 .PHONY = hostdeps
 hostdeps: .hostdeps  ## Install host dependencies
 
+.PHONY = checks
+checks:
+	@if ! which docker 2>&1 > /dev/null; then \
+	  echo "Build cannot proceed without installing docker"; \
+	  echo "  curl -sSL https://get.docker.com/ | sh"; \
+	  exit 1; \
+	fi
 
 pi-gen: ## Download the pi-gen source code and check the right version
 	@echo "# Cloning $@"
@@ -24,9 +31,10 @@ pi-gen: ## Download the pi-gen source code and check the right version
 
 .hostdeps:
 	@# Install dependencies
+	@# This may not be needed.  Remove after testing with a new OS install.
 	@echo "Installing build machine dependencies"
-	sudo apt-get -yq install quilt qemu-user-static debootstrap kpartx pxz zip bsdtar
-	touch .hostdeps
+	@#sudo apt-get -yq install quilt qemu-user-static debootstrap kpartx pxz zip bsdtar
+	@#touch .hostdeps
 
 mrclean:  ## Delete all non-repository files
 	rm -rf pi-gen .hostdeps

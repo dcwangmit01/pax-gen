@@ -43,7 +43,7 @@ if ! locale |grep en_US /dev/null; then
 fi
 
 # enable sshd if it isn't already
-if ! -e /etc/rc2.d/S02ssh; then
+if [[ ! -e /etc/rc2.d/S02ssh ]]; then
     systemctl enable ssh
 fi
 

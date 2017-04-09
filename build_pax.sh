@@ -20,10 +20,10 @@ rm -f $CWD/pi-gen/stage2/EXPORT_NOOBS
 rm -f $CWD/pi-gen/stage2/EXPORT_IMAGE
 touch $CWD/pi-gen/stage3/SKIP
 touch $CWD/pi-gen/stage4/SKIP
-rm -f $CWD/pi-gen/stage4/EXPORT_NOOBS
-rm -f $CWD/pi-gen/stage4/EXPORT_IMAGE
+touch $CWD/pi-gen/stage5/SKIP
 
 # Run the build (pi-gen requires root)
 pushd $CWD/pi-gen
-sudo ./build.sh 2>&1 | tee build.log
+docker rm -f pigen_work 2>&1 > /dev/null || true
+time ./build-docker.sh 2>&1 | tee build.log
 popd
