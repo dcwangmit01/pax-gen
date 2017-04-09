@@ -3,16 +3,11 @@ set -euo pipefail
 # set -x
 
 CWD=`pwd`
-
-# Install dependencies
-if ! which qemu-arm-static >/dev/null; then
-    echo "Installing build machine dependencies"
-    sudo apt-get -yq install quilt qemu-user-static debootstrap kpartx pxz zip bsdtar
-fi
+WORK_DIR="$HOME/work"
 
 # Setup the configuration file
 PI_CONF=$CWD/pi-gen/config
-echo "WORK_DIR=$HOME/work" > $PI_CONF
+echo "WORK_DIR=$WORK_DIR" > $PI_CONF
 echo "DEPLOY_DIR=$CWD/deploy" >> $PI_CONF
 echo "IMG_NAME=pax" >> $PI_CONF
 echo "APT_PROXY=http://192.168.3.12:3142" >> $PI_CONF
@@ -35,7 +30,7 @@ touch $CWD/pi-gen/stage4/SKIP
 rm -f $CWD/pi-gen/stage4/EXPORT_NOOBS
 rm -f $CWD/pi-gen/stage4/EXPORT_IMAGE
 
-# Run the build
+# Run the build (pi-gen requires root)
 pushd $CWD/pi-gen
-sudo time ./build.sh 2>&1 | tee build.log
+sudo ./build.sh 2>&1 | tee build.log
 popd

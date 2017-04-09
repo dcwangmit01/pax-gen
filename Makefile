@@ -1,20 +1,37 @@
 SHELL := /bin/bash
 
-SOURCE := git@github.com:dcwangmit01/pax-gen.git
 PIGEN_SOURCE := git@github.com:RPi-Distro/pi-gen.git
+PIGEN_VERSION := 16b3133f4641e58ceb1e67250c5c685dfd50ad6e
 
-.PHONY = build pi-gen
+default: help
 
-build: pi-gen
+all: hostdeps
+
+.PHONY = build
+build: hostdeps pi-gen  ## Build the pax image
 	./build_pax.sh
 
-pi-gen:
+.PHONY = hostdeps
+hostdeps: .hostdeps  ## Install host dependencies
+
+
+pi-gen: ## Download the pi-gen source code and check the right version
 	@echo "# Cloning $@"
 	git clone $(PIGEN_SOURCE) "$@"
-	@# Ensure a fork and checkout the right version
-	pushd pi-gen && \
-	  hub fork || true && \
-	  git fetch --all && \
-	  git checkout -b current dcwangmit01/make_workdir_deploydir_configurable || true && \
-	  popd
 
+	@# Checkout the right version
+	cd "$@" && git checkout -b pax-gen $(PIGEN_VERSION)
+
+.hostdeps:
+	@# Install dependencies
+	@echo "Installing build machine dependencies"
+	sudo apt-get -yq install quilt qemu-user-static debootstrap kpartx pxz zip bsdtar
+	touch .hostdeps
+
+mrclean:  ## Delete all non-repository files
+	rm -rf pi-gen .hostdeps
+
+help: ## Print list of Makefile targets
+	@# Taken from https://github.com/spf13/hugo/blob/master/Makefile
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
+	  awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
