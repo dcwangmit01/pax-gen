@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 PIGEN_SOURCE := git@github.com:RPi-Distro/pi-gen.git
-PIGEN_VERSION := 0ee2578bc6feac8d44ceeb2e5bf0bad70630311f
+PIGEN_VERSION := 7bbaac3344807e81d491a859168c83ef469a250f
 
 default: help
 
