@@ -1,3 +1,4 @@
 xserver-xorg-video-fbdev xserver-xorg xinit xserver-xorg-video-fbturbo
 xauth  # for remote X11 sessions
-emacs-nox vim screen tree moreutils
+xinput  # for rotating the touchscreen
+emacs-nox vim screen tree moreutils # development utilities

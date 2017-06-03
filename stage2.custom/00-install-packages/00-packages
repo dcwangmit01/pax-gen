@@ -2,3 +2,7 @@ alsa-utils
 git rpi-update
 rfkill
 chromium-browser rpi-chromium-mods
+
+pulseaudio # for sound
+python-pip # required for installing docker-compose
+matchbox-window-manager # minimal windowmanager supporting fullscreen

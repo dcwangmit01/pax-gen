@@ -1,0 +1,7 @@
+## Custom: Everything below this line is auto-edited by setup scripts
+
+#####################################################################
+# Rotate the screen by 90 degress
+#   Works in conjunction with xinput touchscreen rotation
+display_rotate=1
+#####################################################################

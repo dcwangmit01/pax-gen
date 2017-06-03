@@ -11,3 +11,11 @@ if [[ -n "$SSH_TTY" && -S "$SSH_AUTH_SOCK" && ! -L "$SSH_AUTH_SOCK" ]]; then
     export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 fi
 #####################################################################
+
+#####################################################################
+# Enable startx chromium kiosk startup if on tty1
+
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] \
+  && exec startx -- -nocursor
+
+#####################################################################
