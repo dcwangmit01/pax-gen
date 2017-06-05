@@ -5,7 +5,7 @@ PIGEN_VERSION := 7bbaac3344807e81d491a859168c83ef469a250f
 
 default: help
 
-all: hostdeps
+all: hostdeps checks pi-gen build
 
 .PHONY = build
 build: checks hostdeps pi-gen  ## Build the pax image
@@ -37,7 +37,7 @@ pi-gen: ## Download the pi-gen source code and check the right version
 	@#touch .hostdeps
 
 mrclean:  ## Delete all non-repository files
-	rm -rf pi-gen .hostdeps
+	rm -rf pi-gen .hostdeps ./docker
 
 help: ## Print list of Makefile targets
 	@# Taken from https://github.com/spf13/hugo/blob/master/Makefile
