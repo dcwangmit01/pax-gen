@@ -1,0 +1,1 @@
+@reboot /opt/docker/bin/docker_run.sh

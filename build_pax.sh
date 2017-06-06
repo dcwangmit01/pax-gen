@@ -6,7 +6,7 @@ CWD=`pwd`
 
 # Setup the configuration file
 PI_CONF=$CWD/pi-gen/config
-echo "IMG_NAME=pax" >> $PI_CONF
+echo "IMG_NAME=pax" > $PI_CONF
 echo "APT_PROXY=http://192.168.3.12:3142" >> $PI_CONF
 
 # Copy the custom files over to pi-gen.
