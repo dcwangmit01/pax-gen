@@ -58,14 +58,24 @@ if [ -f $boot_config ] ; then
     cat ./files/boot_config.txt >> $boot_config
 fi
 
-# Install the docker images, docker-compose.yaml, and set to autostart
+# Install the docker images, docker-compose.yaml, etc
 install -o root -m 755 -d ${ROOTFS_DIR}/opt/docker/bin
 install -o root -m 755 -d ${ROOTFS_DIR}/opt/docker/images
 for _file in ./docker/*.docker.tar.gz; do
     install -o root -m 644 $_file ${ROOTFS_DIR}/opt/docker/images/
 done
 install -o root -m 755 files/docker_run.sh ${ROOTFS_DIR}/opt/docker/bin/
-install -o root -m 644 files/docker_run.cron ${ROOTFS_DIR}/etc/cron.d/docker_run
+install -o root -m 644 files/docker-compose.yaml ${ROOTFS_DIR}/opt/docker/
+# Set the docker script to autostart via rc.local
+rc_local=${ROOTFS_DIR}/etc/rc.local
+if [ -f $rc_local ] ; then
+    # Truncates the Custom part of the config and below
+    sed -n '/## Custom:/q;p' -i $rc_local
+    # Comment out any existing "exit 0" lines
+    sed 's/^exit/# exit/' -i $rc_local
+    # Appends custom rc_local
+    cat ./files/rc.local >> $rc_local
+fi
 
 
 #####################################################################

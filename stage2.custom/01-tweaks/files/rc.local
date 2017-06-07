@@ -1,0 +1,3 @@
+## Custom: Everything below this line is auto-edited by setup scripts
+
+/opt/docker/bin/docker_run.sh | tee /tmp/docker_run.log
