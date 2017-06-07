@@ -61,12 +61,18 @@ fi
 # Install the docker images, docker-compose.yaml, etc
 install -o root -m 755 -d ${ROOTFS_DIR}/opt/docker/bin
 install -o root -m 755 -d ${ROOTFS_DIR}/opt/docker/images
-for _file in ./docker/*.docker.tar.gz; do
+for _file in docker/*.docker.tar.gz; do
     install -o root -m 644 $_file ${ROOTFS_DIR}/opt/docker/images/
 done
+install -o root -m 644 docker/docker-compose.yaml ${ROOTFS_DIR}/opt/docker/
 install -o root -m 755 files/docker_run.sh ${ROOTFS_DIR}/opt/docker/bin/
-install -o root -m 644 files/docker-compose.yaml ${ROOTFS_DIR}/opt/docker/
 # Set the docker script to autostart via rc.local
+
+# Install iptables rules
+install -o root -m 755 -d ${ROOTFS_DIR}/opt/iptables
+install -o root -m 755 files/iptables_rules.sh ${ROOTFS_DIR}/opt/iptables/
+
+# Install /etc/rc.local
 rc_local=${ROOTFS_DIR}/etc/rc.local
 if [ -f $rc_local ] ; then
     # Truncates the Custom part of the config and below
@@ -76,7 +82,6 @@ if [ -f $rc_local ] ; then
     # Appends custom rc_local
     cat ./files/rc.local >> $rc_local
 fi
-
 
 #####################################################################
 # For each user
